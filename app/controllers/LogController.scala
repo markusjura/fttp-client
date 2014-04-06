@@ -14,23 +14,4 @@ import play.api.mvc.Security._
 
 object LogController extends Controller {
 
-  val (logOut, logChannel) = Concurrent.broadcast[JsValue]
-
-  def receive = Action(parse.json) { request =>
-    logChannel.push(request.body)
-    Ok(Json.obj("success" -> true))
-  }
-
-  /** Enumeratee for detecting disconnect of SSE stream */
-  def connDeathWatch(addr: String): Enumeratee[JsValue, JsValue] =
-    Enumeratee.onIterateeDone{ () => Logger.debug(addr + " - SSE disconnected") }
-
-  def logFeed = Action { request =>
-    Logger.debug(request.remoteAddress + " - SSE connected")
-    Ok.chunked(
-      logOut
-      &> connDeathWatch(request.remoteAddress)
-      &> EventSource()
-    ).as("text/event-stream")
-  }
 }

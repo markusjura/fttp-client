@@ -1,44 +1,12 @@
-@()(implicit request: RequestHeader, session: Session)
+@()(implicit session: Session)
 
 @main("Logly") {
   @* content *@
 
   <div id="logger">
-    <div ng-app="log">
-      <div ng-controller="LogsCtrl">
-        <input type="text" ng-model="search.message" placeholder="Filter log messages">
-        <div class="events">
-          <span class="all" ng-click="myFilter = null">All Events | {{logs.length}}</span>
-          <span class="fatal" ng-click="myFilter = {level: 'FATAL'}">Fatal | {{(logs | logLevel:'FATAL').length}}</span>
-          <span class="error" ng-click="myFilter = {level: 'ERROR'}">Error | {{(logs | logLevel:'ERROR').length}}</span>
-          <span class="warning" ng-click="myFilter = {level: 'WARNING'}">Warning | {{(logs | logLevel:'WARNING').length}}</span>
-          <span class="info" ng-click="myFilter = {level: 'INFO'}">Info | {{(logs | logLevel:'INFO').length}}</span>
-          <span class="debug" ng-click="myFilter = {level: 'DEBUG'}">Debug | {{(logs | logLevel:'DEBUG').length}}</span>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Host</th>
-              <th>Type</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="entry in logs | filter:search | filter:myFilter | orderBy:'date'">
-                <td>{{entry.date}}</td>
-                <td>{{entry.host}}</td>
-                <td>{{entry.level}}</td>
-                <td>{{entry.message}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
-  <script src='@routes.Assets.at("javascripts/app.js")'></script>
-  <script src='@routes.Assets.at("javascripts/services.js")'></script>
-  <script src='@routes.Assets.at("javascripts/controllers.js")'></script>
+  <script src='@routes.Assets.at("javascripts/angular.min.js" )' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/app.js" )' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/controllers.js")' type="text/javascript"></script>
 }

@@ -1,4 +1,4 @@
-@(loginForm : Form[LoginCredentials])(implicit request: RequestHeader, session: Session)
+@()(implicit session: Session)
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -7,16 +7,6 @@
   @* content *@
 
   <div id="login-form">
-    @form(action = routes.Application.submit()) {
-      @inputText(field = loginForm("username"), args = 'placeholder -> "Username", '_label -> "", '_showConstraints -> false)
-      @inputPassword(field = loginForm("password"), args = 'placeholder -> "Password", '_label -> "", '_showConstraints -> false)
-      @loginForm.globalError.map{ error =>
-        <span class="error">@error.message</span>
-      }
-      <div>
-        <input class="btn btn-success btn-lg" type="submit" value="Log In"/>
-      </div>
-    }
   </div>
 
 }
