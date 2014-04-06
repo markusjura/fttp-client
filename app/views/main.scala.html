@@ -1,0 +1,40 @@
+@(title: String)(content: Html)(implicit session: Session)
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>@title</title>
+    <link rel='shortcut icon' type='image/png' href='@routes.Assets.at("images/favicon.png")'>
+    <!-- jQuery -->
+    <script src='@routes.Assets.at("javascripts/jquery-1.11.0.min.js")'></script>
+    <!-- Bootstrap -->
+    <script src='@routes.Assets.at("bootstrap/js/bootstrap.min.js")'></script>
+    <link rel="stylesheet" href='@routes.Assets.at("bootstrap/css/bootstrap.min.css")'>
+    <link rel="stylesheet" href='@routes.Assets.at("bootstrap/css/bootstrap-theme.min.css")'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href='@routes.Assets.at("stylesheets/main.min.css")'>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="@routes.Application.index()">Logly</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+          @session.get("username").map { username =>
+            <li><a href='@routes.Application.logout()'>Logout</a></li>
+          }
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+    @content
+    </div>
+  </body>
+</html>
