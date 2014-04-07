@@ -16,7 +16,7 @@ GET     /logout                     controllers.Application.logout
 
 # Retrieve new logs
 POST    /logs/receive               controllers.LogController.receive
-GET     /logFeed                    controllers.LogController.logFeed
+GET     /logs/feed                  controllers.LogController.logFeed
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

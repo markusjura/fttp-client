@@ -31,6 +31,6 @@ angular.module('log.controllers', [])
       })
     }
 
-    $scope.logFeed = new EventSource("/logFeed")
+    $scope.logFeed = new EventSource("/logs/feed")
     $scope.logFeed.addEventListener("message", $scope.addMsg, false)
   })

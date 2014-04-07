@@ -15,8 +15,8 @@ object Global extends GlobalSettings {
     app.configuration.getStringList("service.log.urls").get.asScala.toSeq
 
   override def onStart(app: Application): Unit =
-    logServers.foreach(url => WS.url(s"$url/subscribe").post(clientUrl))
+    logServers.foreach(url => WS.url(s"$url/logs/subscribe").post(clientUrl))
 
   override def onStop(app: Application): Unit =
-    logServers.foreach(url => WS.url(s"$url/unsubscribe").post(clientUrl))
+    logServers.foreach(url => WS.url(s"$url/logs/unsubscribe").post(clientUrl))
 }
