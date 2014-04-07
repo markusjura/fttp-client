@@ -36,12 +36,24 @@ object Application extends Controller {
     Ok(views.html.login(loginForm))
   }
 
-  def submit = Action { implicit request =>
-    def onError(formWithErrors: Form[LoginCredentials]) =
-      BadRequest(views.html.login(formWithErrors))
+  private lazy val authServiceUrl = configuration.getString("service.auth.url").get
 
-    def onSuccess(credentials: LoginCredentials) =
-      Redirect(routes.Application.index).withSession(usernameSessionKey -> credentials.username)
+  def submit = Action.async { implicit request =>
+    def onError(formWithErrors: Form[LoginCredentials]) =
+      Future.successful(BadRequest(views.html.login(formWithErrors)))
+
+    def onSuccess(credentials: LoginCredentials) = {
+      WS.url(s"$authServiceUrl/auth").post(Json.toJson(credentials)).map { response =>
+        response.status match {
+          case OK => Redirect(routes.Application.index)
+            .withSession(usernameSessionKey -> credentials.username)
+
+          case _ =>
+            val errorForm = loginForm.fill(credentials).withGlobalError((response.json \ "error").as[String])
+            BadRequest(views.html.login(errorForm))
+        }
+      }
+    }
 
     loginForm.bindFromRequest().fold(onError, onSuccess)
   }

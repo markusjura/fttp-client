@@ -8,6 +8,9 @@
 
   <div id="login-form">
     @form(action = routes.Application.submit()) {
+      @loginForm.globalError.map { error =>
+        <span class="error">@error.message</span>
+      }
       @inputText(field = loginForm("username"), args = 'placeholder -> "Username", '_label -> "", '_showConstraints -> false)
       @inputText(field = loginForm("password"), args = 'placeholder -> "Password", '_label -> "", '_showConstraints -> false)
       <div>
