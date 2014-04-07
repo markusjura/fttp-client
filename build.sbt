@@ -1,11 +1,5 @@
 name := "log-client"
 
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
-libraryDependencies ++= Seq(
-  jdbc,
-  anorm,
-  cache
-)     
-
-play.Project.playScalaSettings
+lazy val root = (project in file(".")).addPlugins(PlayScala)
