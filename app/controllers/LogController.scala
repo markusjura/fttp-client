@@ -14,4 +14,18 @@ import play.api.mvc.Security._
 
 object LogController extends Controller {
 
+  val (logOut, logChannel) = Concurrent.broadcast[JsValue]
+
+  def receive = Action(parse.json) { request =>
+    logChannel.push(request.body)
+    Ok(Json.obj("success" -> true))
+  }
+
+  def logFeed = Action { request =>
+    Logger.debug(request.remoteAddress + " - SSE connected")
+    Ok.chunked(
+      logOut
+      &> EventSource()
+    ).as("text/event-stream")
+  }
 }
